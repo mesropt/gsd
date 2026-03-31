@@ -15,7 +15,7 @@
 
 - [ ] **ITEM-01**: User can add an item with a name and price
 - [ ] **ITEM-02**: User can remove an item from the bill
-- [ ] **ITEM-03**: Item prices are stored as integer cents (no floating-point errors)
+- [x] **ITEM-03**: Item prices are stored as integer cents (no floating-point errors)
 
 ### Assignment
 
@@ -69,7 +69,7 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ITEM-03 | Phase 1 | Pending |
+| ITEM-03 | Phase 1 | Complete |
 | PEOP-01 | Phase 2 | Pending |
 | PEOP-02 | Phase 2 | Pending |
 | PEOP-03 | Phase 2 | Pending |

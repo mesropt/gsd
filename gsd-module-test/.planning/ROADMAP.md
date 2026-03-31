@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **UI hint**: yes
 
 Plans:
-- [ ] 01-01: Scaffold — Vite + React + TypeScript + Tailwind CSS + shadcn/ui init, verify dev server runs
+- [x] 01-01: Scaffold — Vite + React + TypeScript + Tailwind CSS + shadcn/ui init, verify dev server runs
 - [ ] 01-02: Math core — `toCents`, `fromCents`, `distributeRemainder` helpers in `src/lib/calculations.ts` with full Vitest unit tests
 - [ ] 01-03: State shape — Zustand store with `AppState` type, all action stubs, `useBillStore` hook exported
 
