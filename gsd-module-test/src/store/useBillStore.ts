@@ -19,6 +19,10 @@ export const useBillStore = create<AppState & AppActions>()((set) => ({
   removePerson: (id) =>
     set((state) => ({
       people: state.people.filter((p) => p.id !== id),
+      items: state.items.map((item) => ({
+        ...item,
+        assignedTo: item.assignedTo.filter((pid) => pid !== id),
+      })),
     })),
 
   addItem: (label, priceCents) =>

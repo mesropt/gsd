@@ -52,7 +52,7 @@ Plans:
 
 Plans:
 - [ ] 02-01: PeoplePanel — `PersonForm` (add) + `PersonTag` (name + remove), wired to Zustand `addPerson` / `removePerson` actions
-- [ ] 02-02: ItemsPanel — `ItemForm` (label + price input with dollar-to-cent conversion on submit) + `ItemRow` (label, formatted price, remove), wired to `addItem` / `removeItem`
+- [x] 02-02: ItemsPanel — `ItemForm` (label + price input with dollar-to-cent conversion on submit) + `ItemRow` (label, formatted price, remove), wired to `addItem` / `removeItem`
 - [ ] 02-03: Cascade delete — `removePerson` action clears that person's ID from all item `assignedTo` arrays in the same dispatch; unit test asserts no stale references
 
 ### Phase 3: Assignment & Charges
@@ -70,10 +70,10 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 03-01: AssignmentSelector — single-person and shared-subset modes on each `ItemRow`, dispatches `ASSIGN_ITEM`; quick-assign "Everyone" button for shared items
-- [ ] 03-02: Unassigned item warning — `ASGN-04` guard: items with empty `assignedTo` array display a warning badge; verified by unit test
-- [ ] 03-03: TipControl — preset buttons (15/18/20) + custom text input + equal/proportional toggle, dispatches `SET_TIP`; NaN guard on custom input
-- [ ] 03-04: TaxControl — amount/percent mode toggle + value input + equal/proportional toggle, dispatches `SET_TAX`; NaN guard; `calculateBreakdowns` integration test covering proportional divide-by-zero guard
+- [x] 03-01-PLAN.md — AssignmentSelector (Radix Popover + Checkbox) on each ItemRow + unassigned-item warning icon (ASGN-01, ASGN-02, ASGN-03, ASGN-04)
+- [x] 03-02-PLAN.md — ChargesPanel container + TipControl (presets, custom input, NaN guard, split toggle) + App.tsx wiring (TIP-01, TIP-02, TIP-03)
+- [ ] 03-03-PLAN.md — TaxControl ($/% mode toggle, value input with toCents, NaN guard, split toggle) wired into ChargesPanel (TAX-01, TAX-02, TAX-03)
+- [x] 03-04-PLAN.md — calculateBreakdowns pure function: item costs + tip + tax distribution with proportional/equal splits, integration tests (TDD)
 
 ### Phase 4: Summary & Polish
 **Goal**: Users see an accurate final breakdown of what each person owes, totals sum exactly to the bill total, and the app is usable on a phone
@@ -101,6 +101,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 0/3 | Not started | - |
-| 2. People & Items | 0/3 | Not started | - |
-| 3. Assignment & Charges | 0/4 | Not started | - |
+| 2. People & Items | 1/3 | In Progress|  |
+| 3. Assignment & Charges | 3/4 | In Progress|  |
 | 4. Summary & Polish | 0/3 | Not started | - |

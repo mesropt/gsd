@@ -6,6 +6,8 @@
  * Never store or compute with floating-point dollar values.
  */
 
+import type { AppState } from '../types'
+
 /**
  * Parse a user-entered dollar string or number to integer cents.
  * Strips $, commas, and whitespace. Rounds to nearest cent.
@@ -93,4 +95,56 @@ export function distributeProportionally(totalCents: number, weights: number[]):
   }
 
   return floors
+}
+
+/**
+ * Calculate per-person totals from item assignments, tip, and tax.
+ * Returns Map<personId, totalCentsOwed>.
+ * Pure function — no store reads.
+ */
+export function calculateBreakdowns(state: AppState): Map<string, number> {
+  if (state.people.length === 0) return new Map()
+
+  const totals = new Map<string, number>(state.people.map(p => [p.id, 0]))
+
+  // 1. Distribute item costs (skip unassigned items)
+  for (const item of state.items) {
+    if (item.assignedTo.length === 0) continue
+    const shares = distributeRemainder(item.price, item.assignedTo.length)
+    item.assignedTo.forEach((personId, idx) => {
+      totals.set(personId, (totals.get(personId) ?? 0) + shares[idx])
+    })
+  }
+
+  // 2. Compute per-person subtotals as weights for proportional distribution
+  const subtotals = state.people.map(p => totals.get(p.id) ?? 0)
+  const totalSubtotal = subtotals.reduce((a, b) => a + b, 0)
+
+  // 3. Calculate and distribute tip
+  const tipCents = state.tip.mode === 'percent'
+    ? Math.round(totalSubtotal * state.tip.value / 100)
+    : state.tip.value  // already integer cents in amount mode
+
+  const tipShares = state.tip.splitMethod === 'equal'
+    ? distributeRemainder(tipCents, state.people.length)
+    : distributeProportionally(tipCents, subtotals)
+
+  state.people.forEach((p, idx) => {
+    totals.set(p.id, (totals.get(p.id) ?? 0) + tipShares[idx])
+  })
+
+  // 4. Calculate and distribute tax
+  const taxCents = state.tax.mode === 'percent'
+    ? Math.round(totalSubtotal * state.tax.value / 100)
+    : state.tax.value  // already integer cents in amount mode
+
+  const taxShares = state.tax.splitMethod === 'equal'
+    ? distributeRemainder(taxCents, state.people.length)
+    : distributeProportionally(taxCents, subtotals)
+
+  state.people.forEach((p, idx) => {
+    totals.set(p.id, (totals.get(p.id) ?? 0) + taxShares[idx])
+  })
+
+  return totals
 }

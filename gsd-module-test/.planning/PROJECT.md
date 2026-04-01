@@ -26,12 +26,10 @@ A single-page app where users can:
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] Add/remove people by name — Validated in Phase 02: people-items
+- [x] Add/remove items with prices — Validated in Phase 02: people-items
 
 ### Active
-
-- [ ] Add/remove people by name
-- [ ] Add/remove items with prices
 - [ ] Assign items to one person or mark as "shared"
 - [ ] Tip calculation with percentage selector (15/18/20/custom)
 - [ ] Tip split: equal across everyone OR proportional to what they ordered
@@ -72,4 +70,6 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-31 after initialization*
+**Current state:** Phase 02 complete — PeoplePanel + ItemsPanel built, cascade delete wired, 160 tests green.
+
+*Last updated: 2026-04-01 after Phase 02: people-items*

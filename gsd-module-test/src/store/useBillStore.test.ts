@@ -106,3 +106,48 @@ describe('setTip / setTax', () => {
     expect(useBillStore.getState().tax.splitMethod).toBe('proportional')
   })
 })
+
+describe('removePerson — cascade delete', () => {
+  it('clears removed person ID from all item assignedTo arrays', () => {
+    useBillStore.getState().addPerson('Alice')
+    useBillStore.getState().addPerson('Bob')
+    const aliceId = useBillStore.getState().people[0].id
+    const bobId = useBillStore.getState().people[1].id
+    useBillStore.getState().addItem('Pizza', 1200)
+    useBillStore.getState().addItem('Salad', 800)
+    const pizzaId = useBillStore.getState().items[0].id
+    const saladId = useBillStore.getState().items[1].id
+    useBillStore.getState().assignItem(pizzaId, [aliceId, bobId])
+    useBillStore.getState().assignItem(saladId, [aliceId])
+    useBillStore.getState().removePerson(aliceId)
+    expect(
+      useBillStore.getState().items.filter((i) => i.assignedTo.includes(aliceId))
+    ).toHaveLength(0)
+    expect(useBillStore.getState().items[0].assignedTo).toContain(bobId)
+  })
+
+  it('preserves other people assignments when one person is removed', () => {
+    useBillStore.getState().addPerson('Alice')
+    useBillStore.getState().addPerson('Bob')
+    const aliceId = useBillStore.getState().people[0].id
+    const bobId = useBillStore.getState().people[1].id
+    useBillStore.getState().addItem('Pizza', 1200)
+    useBillStore.getState().addItem('Salad', 800)
+    const pizzaId = useBillStore.getState().items[0].id
+    const saladId = useBillStore.getState().items[1].id
+    useBillStore.getState().assignItem(pizzaId, [aliceId, bobId])
+    useBillStore.getState().assignItem(saladId, [aliceId])
+    useBillStore.getState().removePerson(aliceId)
+    expect(useBillStore.getState().items[0].assignedTo).toEqual([bobId])
+    expect(useBillStore.getState().items[1].assignedTo).toEqual([])
+  })
+
+  it('handles removing person with no assignments gracefully', () => {
+    useBillStore.getState().addPerson('Carol')
+    const carolId = useBillStore.getState().people[0].id
+    useBillStore.getState().addItem('Soup', 500)
+    useBillStore.getState().removePerson(carolId)
+    expect(useBillStore.getState().items[0].assignedTo).toEqual([])
+    expect(useBillStore.getState().people).toHaveLength(0)
+  })
+})

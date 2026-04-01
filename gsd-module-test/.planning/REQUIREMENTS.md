@@ -13,8 +13,8 @@
 
 ### Items
 
-- [ ] **ITEM-01**: User can add an item with a name and price
-- [ ] **ITEM-02**: User can remove an item from the bill
+- [x] **ITEM-01**: User can add an item with a name and price
+- [x] **ITEM-02**: User can remove an item from the bill
 - [x] **ITEM-03**: Item prices are stored as integer cents (no floating-point errors)
 
 ### Assignment
@@ -26,15 +26,15 @@
 
 ### Tip
 
-- [ ] **TIP-01**: User can select tip percentage (15%, 18%, 20%, or custom)
-- [ ] **TIP-02**: User can choose equal tip split (divided evenly across all people)
-- [ ] **TIP-03**: User can choose proportional tip split (based on each person's subtotal)
+- [x] **TIP-01**: User can select tip percentage (15%, 18%, 20%, or custom)
+- [x] **TIP-02**: User can choose equal tip split (divided evenly across all people)
+- [x] **TIP-03**: User can choose proportional tip split (based on each person's subtotal)
 
 ### Tax
 
 - [ ] **TAX-01**: User can enter tax as a dollar amount or percentage
 - [ ] **TAX-02**: User can choose equal tax split (divided evenly across all people)
-- [ ] **TAX-03**: User can choose proportional tax split (based on each person's subtotal)
+- [x] **TAX-03**: User can choose proportional tax split (based on each person's subtotal)
 
 ### Summary
 
@@ -73,18 +73,18 @@
 | PEOP-01 | Phase 2 | Pending |
 | PEOP-02 | Phase 2 | Pending |
 | PEOP-03 | Phase 2 | Pending |
-| ITEM-01 | Phase 2 | Pending |
-| ITEM-02 | Phase 2 | Pending |
+| ITEM-01 | Phase 2 | Complete |
+| ITEM-02 | Phase 2 | Complete |
 | ASGN-01 | Phase 3 | Pending |
 | ASGN-02 | Phase 3 | Pending |
 | ASGN-03 | Phase 3 | Pending |
 | ASGN-04 | Phase 3 | Pending |
-| TIP-01 | Phase 3 | Pending |
-| TIP-02 | Phase 3 | Pending |
-| TIP-03 | Phase 3 | Pending |
+| TIP-01 | Phase 3 | Complete |
+| TIP-02 | Phase 3 | Complete |
+| TIP-03 | Phase 3 | Complete |
 | TAX-01 | Phase 3 | Pending |
 | TAX-02 | Phase 3 | Pending |
-| TAX-03 | Phase 3 | Pending |
+| TAX-03 | Phase 3 | Complete |
 | SUMM-01 | Phase 4 | Pending |
 | SUMM-02 | Phase 4 | Pending |
 | SUMM-03 | Phase 4 | Pending |
