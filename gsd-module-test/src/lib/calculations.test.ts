@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { toCents, fromCents, distributeRemainder, distributeProportionally, calculateBreakdowns } from './calculations'
+import { toCents, fromCents, distributeRemainder, distributeProportionally, calculateBreakdowns, calculateDetailedBreakdowns } from './calculations'
 import type { AppState } from '@/types'
 
 describe('toCents', () => {
@@ -209,5 +209,116 @@ describe('calculateBreakdowns', () => {
     const expectedTotal = itemTotal + tipCents + taxCents
     const actualTotal = Array.from(result.values()).reduce((a, b) => a + b, 0)
     expect(actualTotal).toBe(expectedTotal)
+  })
+})
+
+describe('calculateDetailedBreakdowns', () => {
+  function makeState(overrides: Partial<AppState> = {}): AppState {
+    return {
+      people: [],
+      items: [],
+      tip: { mode: 'percent', value: 0, splitMethod: 'equal' },
+      tax: { mode: 'percent', value: 0, splitMethod: 'equal' },
+      ...overrides,
+    }
+  }
+
+  it('returns empty array when people.length === 0', () => {
+    const result = calculateDetailedBreakdowns(makeState())
+    expect(result).toEqual([])
+  })
+
+  it('2 people, 1 item assigned to person A, no tip/tax — person A gets subtotal 1000, person B gets all zeros', () => {
+    const result = calculateDetailedBreakdowns(makeState({
+      people: [{ id: 'a', name: 'Alice' }, { id: 'b', name: 'Bob' }],
+      items: [{ id: 'i1', label: 'Pizza', price: 1000, assignedTo: ['a'] }],
+    }))
+    expect(result).toHaveLength(2)
+    expect(result[0]).toEqual({ subtotal: 1000, tipShare: 0, taxShare: 0, total: 1000 })
+    expect(result[1]).toEqual({ subtotal: 0, tipShare: 0, taxShare: 0, total: 0 })
+  })
+
+  it('2 people sharing $10.01 item — shares sum to 1001 (odd cent handled)', () => {
+    const result = calculateDetailedBreakdowns(makeState({
+      people: [{ id: 'a', name: 'Alice' }, { id: 'b', name: 'Bob' }],
+      items: [{ id: 'i1', label: 'Bread', price: 1001, assignedTo: ['a', 'b'] }],
+    }))
+    const sumSubtotals = result.reduce((acc, b) => acc + b.subtotal, 0)
+    expect(sumSubtotals).toBe(1001)
+    const sumTotals = result.reduce((acc, b) => acc + b.total, 0)
+    expect(sumTotals).toBe(1001)
+  })
+
+  it('3 people, $30.00 items, 20% tip proportional, 10% tax equal — correct sums', () => {
+    const result = calculateDetailedBreakdowns(makeState({
+      people: [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }, { id: 'c', name: 'C' }],
+      items: [
+        { id: 'i1', label: 'A item', price: 1000, assignedTo: ['a'] },
+        { id: 'i2', label: 'B item', price: 1000, assignedTo: ['b'] },
+        { id: 'i3', label: 'C item', price: 1000, assignedTo: ['c'] },
+      ],
+      tip: { mode: 'percent', value: 20, splitMethod: 'proportional' },
+      tax: { mode: 'percent', value: 10, splitMethod: 'equal' },
+    }))
+    // tipShares sum to 600 (20% of 3000)
+    const tipSum = result.reduce((acc, b) => acc + b.tipShare, 0)
+    expect(tipSum).toBe(600)
+    // taxShares sum to 300 (10% of 3000)
+    const taxSum = result.reduce((acc, b) => acc + b.taxShare, 0)
+    expect(taxSum).toBe(300)
+    // all totals sum to 3900 (3000 + 600 + 300)
+    const totalSum = result.reduce((acc, b) => acc + b.total, 0)
+    expect(totalSum).toBe(3900)
+  })
+
+  it('balance assertion — sum(totals) === assignedItemTotal + tipCents + taxCents', () => {
+    const state = makeState({
+      people: [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }],
+      items: [{ id: 'i1', label: 'Item', price: 1500, assignedTo: ['a'] }],
+      tip: { mode: 'amount', value: 300, splitMethod: 'equal' },
+      tax: { mode: 'amount', value: 150, splitMethod: 'equal' },
+    })
+    const result = calculateDetailedBreakdowns(state)
+    const sumTotals = result.reduce((acc, b) => acc + b.total, 0)
+    // assignedItemTotal = 1500, tipCents = 300, taxCents = 150 => billTotal = 1950
+    expect(sumTotals).toBe(1950)
+  })
+
+  it('odd-cent proportional split — 3 people, $10.01 bill, $1.00 tip proportional — sum === 1101', () => {
+    const result = calculateDetailedBreakdowns(makeState({
+      people: [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }, { id: 'c', name: 'C' }],
+      items: [
+        { id: 'i1', label: 'Item1', price: 500, assignedTo: ['a'] },
+        { id: 'i2', label: 'Item2', price: 500, assignedTo: ['b'] },
+        { id: 'i3', label: 'Item3', price: 1, assignedTo: ['c'] },
+      ],
+      tip: { mode: 'amount', value: 100, splitMethod: 'proportional' },
+    }))
+    const totalSum = result.reduce((acc, b) => acc + b.total, 0)
+    expect(totalSum).toBe(1101)
+  })
+
+  it('all items unassigned — all subtotals 0, tip/tax still distributed', () => {
+    const result = calculateDetailedBreakdowns(makeState({
+      people: [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }],
+      items: [{ id: 'i1', label: 'Unassigned', price: 1000, assignedTo: [] }],
+      tip: { mode: 'amount', value: 200, splitMethod: 'equal' },
+    }))
+    expect(result[0].subtotal).toBe(0)
+    expect(result[1].subtotal).toBe(0)
+    // tip 200 split equally: 100 each
+    expect(result[0].tipShare).toBe(100)
+    expect(result[1].tipShare).toBe(100)
+  })
+
+  it('zero tip and zero tax — tipShare and taxShare are 0 for all people', () => {
+    const result = calculateDetailedBreakdowns(makeState({
+      people: [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }],
+      items: [{ id: 'i1', label: 'Item', price: 1000, assignedTo: ['a'] }],
+    }))
+    expect(result[0].tipShare).toBe(0)
+    expect(result[0].taxShare).toBe(0)
+    expect(result[1].tipShare).toBe(0)
+    expect(result[1].taxShare).toBe(0)
   })
 })

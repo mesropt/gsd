@@ -44,6 +44,7 @@ export function TaxControl() {
         <Button
           variant={tax.mode === 'amount' ? 'default' : 'outline'}
           size="sm"
+          className="min-h-[44px]"
           onClick={() => handleModeSwitch('amount')}
         >
           $
@@ -51,6 +52,7 @@ export function TaxControl() {
         <Button
           variant={tax.mode === 'percent' ? 'default' : 'outline'}
           size="sm"
+          className="min-h-[44px]"
           onClick={() => handleModeSwitch('percent')}
         >
           %
@@ -78,6 +80,7 @@ export function TaxControl() {
           <Button
             variant={tax.splitMethod === 'equal' ? 'default' : 'outline'}
             size="sm"
+            className="min-h-[44px]"
             onClick={() => setTax({ splitMethod: 'equal' })}
           >
             Equal
@@ -85,6 +88,7 @@ export function TaxControl() {
           <Button
             variant={tax.splitMethod === 'proportional' ? 'default' : 'outline'}
             size="sm"
+            className="min-h-[44px]"
             onClick={() => setTax({ splitMethod: 'proportional' })}
           >
             Proportional

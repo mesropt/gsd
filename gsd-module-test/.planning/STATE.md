@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-assignment-charges-03-04-PLAN.md
-last_updated: "2026-04-01T06:28:59.861Z"
+stopped_at: Completed 04-summary-polish-04-03-PLAN.md — Phase 4 complete, all SUMM requirements satisfied
+last_updated: "2026-04-01T12:02:16.090Z"
 last_activity: 2026-04-01
 progress:
   total_phases: 4
-  completed_phases: 3
-  total_plans: 10
-  completed_plans: 10
+  completed_phases: 4
+  total_plans: 13
+  completed_plans: 13
   percent: 0
 ---
 
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-03-31)
 
 ## Current Position
 
-Phase: 4
+Phase: 04
 Plan: Not started
 Status: Ready to execute
 Last activity: 2026-04-01
@@ -56,6 +56,9 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-people-items P02 | 2 | 2 tasks | 5 files |
 | Phase 03-assignment-charges P02 | 88s | 2 tasks | 4 files |
 | Phase 03-assignment-charges P04 | 113s | 2 tasks | 2 files |
+| Phase 04-summary-polish P01 | 8min | 2 tasks | 4 files |
+| Phase 04-summary-polish P02 | 210 | 2 tasks | 5 files |
+| Phase 04-summary-polish P03 | 15min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -74,6 +77,11 @@ Recent decisions affecting current work:
 - [Phase 02-people-items]: cents <= 0 guard alongside isNaN(cents) — rejects zero-price items in addition to NaN
 - [Phase 03-assignment-charges]: activePreset null when isCustom=true prevents stale preset highlight; parseFloat allows decimal tip percentages
 - [Phase 03-assignment-charges]: calculateBreakdowns uses always-distribute pattern — distributeRemainder(0,N) returns zeros so guard around zero tip/tax is redundant
+- [Phase 04-summary-polish]: Balance assertion in calculateDetailedBreakdowns throws if sum(totals) != billTotal — catches rounding bugs immediately
+- [Phase 04-summary-polish]: SummaryPanel not wired into App.tsx in Plan 01 — deferred to Plan 02 (SubtotalsStrip + wiring)
+- [Phase 04-summary-polish]: SubtotalsStrip uses useMemo keyed on [people, items] for efficient recomputation
+- [Phase 04-summary-polish]: Parallel dep pattern: wave-1 plans with implicit dependencies should include each other's outputs in their worktrees
+- [Phase 04-summary-polish]: sm: breakpoint at 640px for mobile-first flex-col sm:flex-row stack; min-h-[44px] touch targets on ChargesPanel buttons
 
 ### Pending Todos
 
@@ -87,12 +95,6 @@ None yet.
 
 ## Session Continuity
 
-<<<<<<< Updated upstream
-Last session: 2026-04-01T06:25:11.743Z
-Stopped at: Completed 03-assignment-charges-03-04-PLAN.md
+Last session: 2026-04-01T11:54:55.981Z
+Stopped at: Completed 04-summary-polish-04-03-PLAN.md — Phase 4 complete, all SUMM requirements satisfied
 Resume file: None
-=======
-Last session: 2026-04-01T02:26:42.209Z
-Stopped at: Phase 3 UI-SPEC approved
-Resume file: .planning/phases/03-assignment-charges/03-UI-SPEC.md
->>>>>>> Stashed changes

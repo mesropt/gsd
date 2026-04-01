@@ -97,6 +97,13 @@ export function distributeProportionally(totalCents: number, weights: number[]):
   return floors
 }
 
+export interface PersonBreakdown {
+  subtotal: number   // item costs assigned to this person (cents)
+  tipShare: number   // tip allocated to this person (cents)
+  taxShare: number   // tax allocated to this person (cents)
+  total: number      // subtotal + tipShare + taxShare (cents)
+}
+
 /**
  * Calculate per-person totals from item assignments, tip, and tax.
  * Returns Map<personId, totalCentsOwed>.
@@ -147,4 +154,62 @@ export function calculateBreakdowns(state: AppState): Map<string, number> {
   })
 
   return totals
+}
+
+/**
+ * Calculate per-person detailed breakdowns (subtotal, tipShare, taxShare, total).
+ * Includes a balance assertion: sum(totals) must equal assignedItemTotal + tipCents + taxCents.
+ * Pure function — no store reads.
+ */
+export function calculateDetailedBreakdowns(state: AppState): PersonBreakdown[] {
+  if (state.people.length === 0) return []
+
+  // Step 1: per-person item subtotals
+  const subtotals = new Map<string, number>(state.people.map(p => [p.id, 0]))
+  for (const item of state.items) {
+    if (item.assignedTo.length === 0) continue
+    const shares = distributeRemainder(item.price, item.assignedTo.length)
+    item.assignedTo.forEach((personId, idx) => {
+      subtotals.set(personId, (subtotals.get(personId) ?? 0) + shares[idx])
+    })
+  }
+
+  const subtotalValues = state.people.map(p => subtotals.get(p.id) ?? 0)
+  const totalSubtotal = subtotalValues.reduce((a, b) => a + b, 0)
+
+  // Step 2: tip shares
+  const tipCents = state.tip.mode === 'percent'
+    ? Math.round(totalSubtotal * state.tip.value / 100)
+    : state.tip.value
+  const tipShares = state.tip.splitMethod === 'equal'
+    ? distributeRemainder(tipCents, state.people.length)
+    : distributeProportionally(tipCents, subtotalValues)
+
+  // Step 3: tax shares
+  const taxCents = state.tax.mode === 'percent'
+    ? Math.round(totalSubtotal * state.tax.value / 100)
+    : state.tax.value
+  const taxShares = state.tax.splitMethod === 'equal'
+    ? distributeRemainder(taxCents, state.people.length)
+    : distributeProportionally(taxCents, subtotalValues)
+
+  // Step 4: build PersonBreakdown array
+  const breakdowns = state.people.map((_, idx) => ({
+    subtotal: subtotalValues[idx],
+    tipShare: tipShares[idx],
+    taxShare: taxShares[idx],
+    total: subtotalValues[idx] + tipShares[idx] + taxShares[idx],
+  }))
+
+  // Step 5: balance assertion (SUMM-02)
+  const assignedItemTotal = totalSubtotal
+  const billTotal = assignedItemTotal + tipCents + taxCents
+  const sumOfTotals = breakdowns.reduce((acc, b) => acc + b.total, 0)
+  if (sumOfTotals !== billTotal) {
+    throw new Error(
+      `Balance assertion failed: sum(totals)=${sumOfTotals} !== billTotal=${billTotal}`
+    )
+  }
+
+  return breakdowns
 }

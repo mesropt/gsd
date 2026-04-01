@@ -38,9 +38,9 @@
 
 ### Summary
 
-- [ ] **SUMM-01**: App shows final breakdown: each person's name and total amount owed
-- [ ] **SUMM-02**: All person totals sum exactly to the bill total (Largest Remainder Method for rounding)
-- [ ] **SUMM-03**: Running subtotal visible as user builds the bill
+- [x] **SUMM-01**: App shows final breakdown: each person's name and total amount owed
+- [x] **SUMM-02**: All person totals sum exactly to the bill total (Largest Remainder Method for rounding)
+- [x] **SUMM-03**: Running subtotal visible as user builds the bill
 
 ## v2 Requirements
 
@@ -85,9 +85,9 @@
 | TAX-01 | Phase 3 | Pending |
 | TAX-02 | Phase 3 | Pending |
 | TAX-03 | Phase 3 | Complete |
-| SUMM-01 | Phase 4 | Pending |
-| SUMM-02 | Phase 4 | Pending |
-| SUMM-03 | Phase 4 | Pending |
+| SUMM-01 | Phase 4 | Complete |
+| SUMM-02 | Phase 4 | Complete |
+| SUMM-03 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 19 total

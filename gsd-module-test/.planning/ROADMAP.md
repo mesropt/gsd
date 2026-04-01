@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 1: Foundation** - Vite/React/Tailwind/Zustand scaffold, integer-cent math helpers, Vitest configured and green
 - [ ] **Phase 2: People & Items** - People panel and Items panel with add/remove and cascade-delete
 - [ ] **Phase 3: Assignment & Charges** - Item assignment UI, tip config, tax config, proportional/equal splits
-- [ ] **Phase 4: Summary & Polish** - Final per-person breakdown, Largest Remainder rounding, running subtotals, mobile layout
+- [x] **Phase 4: Summary & Polish** - Final per-person breakdown, Largest Remainder rounding, running subtotals, mobile layout (completed 2026-04-01)
 
 ## Phase Details
 
@@ -89,9 +89,9 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 04-01-PLAN.md — calculateDetailedBreakdowns function + SummaryPanel table (Name|Subtotal|Tip|Tax|Total) + balance assertion (SUMM-01, SUMM-02)
-- [ ] 04-02-PLAN.md — SubtotalsStrip (live per-person item subtotals between Items and Charges) + App.tsx layout wiring (SUMM-03)
-- [ ] 04-03-PLAN.md — Mobile responsive layout (flex-col sm:flex-row), touch targets, edge-case smoke tests, visual checkpoint (SUMM-01, SUMM-02, SUMM-03)
+- [x] 04-01-PLAN.md — calculateDetailedBreakdowns function + SummaryPanel table (Name|Subtotal|Tip|Tax|Total) + balance assertion (SUMM-01, SUMM-02)
+- [x] 04-02-PLAN.md — SubtotalsStrip (live per-person item subtotals between Items and Charges) + App.tsx layout wiring (SUMM-03)
+- [x] 04-03-PLAN.md — Mobile responsive layout (flex-col sm:flex-row), touch targets, edge-case smoke tests, visual checkpoint (SUMM-01, SUMM-02, SUMM-03)
 
 ## Progress
 
@@ -103,4 +103,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 0/3 | Not started | - |
 | 2. People & Items | 1/3 | In Progress|  |
 | 3. Assignment & Charges | 3/4 | In Progress|  |
-| 4. Summary & Polish | 0/3 | Not started | - |
+| 4. Summary & Polish | 3/3 | Complete   | 2026-04-01 |

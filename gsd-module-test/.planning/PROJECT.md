@@ -29,14 +29,19 @@ A single-page app where users can:
 - [x] Add/remove people by name — Validated in Phase 02: people-items
 - [x] Add/remove items with prices — Validated in Phase 02: people-items
 
+### Validated (Phase 03 + Phase 04)
+
+- [x] Assign items to one person or mark as "shared" — Validated in Phase 03: assignment-charges
+- [x] Tip calculation with percentage selector (15/18/20/custom) — Validated in Phase 03: assignment-charges
+- [x] Tip split: equal across everyone OR proportional to what they ordered — Validated in Phase 03: assignment-charges
+- [x] Tax calculation: enter as amount or percentage — Validated in Phase 03: assignment-charges
+- [x] Tax split: equal OR proportional — Validated in Phase 03: assignment-charges
+- [x] Final summary showing each person's total owed — Validated in Phase 04: summary-polish
+- [x] Correct rounding (no penny errors, balance assertion enforced) — Validated in Phase 04: summary-polish
+
 ### Active
-- [ ] Assign items to one person or mark as "shared"
-- [ ] Tip calculation with percentage selector (15/18/20/custom)
-- [ ] Tip split: equal across everyone OR proportional to what they ordered
-- [ ] Tax calculation: enter as amount or percentage
-- [ ] Tax split: equal OR proportional
-- [ ] Final summary showing each person's total owed
-- [ ] Correct rounding (no penny errors)
+
+(none — all v1 requirements complete)
 
 ### Out of Scope
 
@@ -70,6 +75,6 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-**Current state:** Phase 02 complete — PeoplePanel + ItemsPanel built, cascade delete wired, 160 tests green.
+**Current state:** All 4 phases complete — full expense splitter delivered. SummaryPanel, SubtotalsStrip, mobile-responsive layout, 756 tests green. v1 requirements 100% satisfied.
 
-*Last updated: 2026-04-01 after Phase 02: people-items*
+*Last updated: 2026-04-01 after Phase 04: summary-polish*

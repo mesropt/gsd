@@ -53,6 +53,7 @@ export function TipControl() {
             key={p}
             variant={activePreset === p ? 'default' : 'outline'}
             size="sm"
+            className="min-h-[44px]"
             onClick={() => handlePresetClick(p)}
           >
             {p}%
@@ -61,6 +62,7 @@ export function TipControl() {
         <Button
           variant={isCustom ? 'default' : 'outline'}
           size="sm"
+          className="min-h-[44px]"
           onClick={handleCustomClick}
         >
           Custom
@@ -85,6 +87,7 @@ export function TipControl() {
           <Button
             variant={tip.splitMethod === 'equal' ? 'default' : 'outline'}
             size="sm"
+            className="min-h-[44px]"
             onClick={() => setTip({ splitMethod: 'equal' })}
           >
             Equal
@@ -92,6 +95,7 @@ export function TipControl() {
           <Button
             variant={tip.splitMethod === 'proportional' ? 'default' : 'outline'}
             size="sm"
+            className="min-h-[44px]"
             onClick={() => setTip({ splitMethod: 'proportional' })}
           >
             Proportional
