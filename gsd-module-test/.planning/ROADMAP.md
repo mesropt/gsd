@@ -89,9 +89,9 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 04-01: SummaryPanel — `calculateBreakdowns` called via `useMemo`, `PersonSummaryRow` per person (subtotal + tip share + tax share + total); balance assertion `sum(totals) === billTotal` throws if violated
-- [ ] 04-02: Largest Remainder rounding — implement in `distributeRemainder` (already scaffolded in Phase 1), add integration test asserting exact equality across odd-cent proportional splits; running subtotals visible above ChargesPanel
-- [ ] 04-03: Mobile polish — responsive Tailwind layout (single-column stack on mobile), touch-target sizing, edge-case smoke tests (empty bill, single person, all-unassigned)
+- [ ] 04-01-PLAN.md — calculateDetailedBreakdowns function + SummaryPanel table (Name|Subtotal|Tip|Tax|Total) + balance assertion (SUMM-01, SUMM-02)
+- [ ] 04-02-PLAN.md — SubtotalsStrip (live per-person item subtotals between Items and Charges) + App.tsx layout wiring (SUMM-03)
+- [ ] 04-03-PLAN.md — Mobile responsive layout (flex-col sm:flex-row), touch targets, edge-case smoke tests, visual checkpoint (SUMM-01, SUMM-02, SUMM-03)
 
 ## Progress
 
